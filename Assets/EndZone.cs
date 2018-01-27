@@ -96,8 +96,11 @@ public class EndZone : MonoBehaviour
                         var topOtherCube = otherPlatformTransform.localPosition.y + (otherPlatformTransform.localScale.y / 2);
                         var newHightOfCube = topOtherCube - (parentPlatformTransform.localScale.y / 2);
 
+                        //aligning on Z
+                        var newZ = -1 * (otherPlatformTransform.localPosition.z - ((otherPlatformTransform.localScale.z + parentPlatformTransform.localScale.z)/2));
+
                         parentPlatformTransform.localPosition = new Vector3(0f,
-                            newHightOfCube, parentPlatformTransform.localPosition.z);
+                            newHightOfCube, newZ);
 
 
                     }
