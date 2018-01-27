@@ -25,13 +25,21 @@ public class EndZone : MonoBehaviour
     }
 
 
-    public bool IsActive
+    /// <summary>
+    /// Parent platform is active when the Player Character is on platform
+    /// </summary>
+    public bool IsParentPlatformActive
     {
         get
         {
             return this.ParentPlatform.IsActive;
         }
     }
+
+    /// <summary>
+    /// EndZone is disabled once it has been attached to another location
+    /// </summary>
+    public bool Disabled { get; private set; }
 
     public Platform ParentPlatform { get; private set; }
 
@@ -47,9 +55,9 @@ public class EndZone : MonoBehaviour
         this.tag = EndZoneTag;
     }
 
-    public void Update()
+    public void FixedUpdate()
     {
-        if (IsActive && Time.time > _nextInterval)
+        if (IsParentPlatformActive && Time.time > _nextInterval)
         {
             _nextInterval = Time.time + _interval;
 
@@ -63,19 +71,34 @@ public class EndZone : MonoBehaviour
                 {
                     var otherEndZone = other.GetComponent<EndZone>();
 
-                    if (this.ParentPlatform != otherEndZone.ParentPlatform)
+                    if (this.ParentPlatform != otherEndZone.ParentPlatform && !otherEndZone.Disabled)
                     {
+                        Debug.Log("Tranfering platform and locking position");
+
+                        //Disable this endzone
+                        this.Disabled = true;
+
                         //Inactivate this platform
                         this.ParentPlatform.IsActive = false;
 
                         //Activate the other platform
                         otherEndZone.ParentPlatform.IsActive = true;
-
+                        
                         //attach this platform to the parent platform
                         var parentPlatformTransform = this.ParentPlatform.transform;
+                        var otherPlatformTransform = otherEndZone.ParentPlatform.transform;
+
                         parentPlatformTransform.parent = otherEndZone.ParentPlatform.transform.parent;
-                        //parentPlatformTransform.position = new Vector3(0f,parentPlatformTransform.position.y,0f);
                         parentPlatformTransform.localRotation = Quaternion.identity;
+                        
+                        
+                        //aligning top...
+                        var topOtherCube = otherPlatformTransform.localPosition.y + (otherPlatformTransform.localScale.y / 2);
+                        var newHightOfCube = topOtherCube - (parentPlatformTransform.localScale.y / 2);
+
+                        parentPlatformTransform.localPosition = new Vector3(0f,
+                            newHightOfCube, parentPlatformTransform.localPosition.z);
+
 
                     }
                 }
