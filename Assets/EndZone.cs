@@ -87,10 +87,20 @@ public class EndZone : MonoBehaviour
                         //attach this platform to the parent platform
                         var parentPlatformTransform = this.ParentPlatform.transform;
                         var otherPlatformTransform = otherEndZone.ParentPlatform.transform;
-
-                        parentPlatformTransform.parent = otherEndZone.ParentPlatform.transform.parent;
-                        parentPlatformTransform.localRotation = Quaternion.identity;
                         
+                        parentPlatformTransform.parent = otherEndZone.ParentPlatform.transform.parent;
+                        otherEndZone.ParentPlatform.PlatformAttachedToMe = this.ParentPlatform;
+                        parentPlatformTransform.localRotation = Quaternion.identity;
+
+                        //Destroy the previous attached platform
+                        if (this.ParentPlatform.PlatformAttachedToMe != null)
+                        {
+                            Debug.Log("Destroying original platform...");
+
+                            Destroy(this.ParentPlatform.PlatformAttachedToMe.gameObject);
+                            this.ParentPlatform.PlatformAttachedToMe = null;
+                        }
+
                         
                         //aligning top...
                         var topOtherCube = otherPlatformTransform.localPosition.y + (otherPlatformTransform.localScale.y / 2);
