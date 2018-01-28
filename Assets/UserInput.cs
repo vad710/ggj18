@@ -7,13 +7,16 @@ public class UserInput : MonoBehaviour
 
     public Target TestTarget;
 
+    private bool _started;
+
 	// Update is called once per frame
 	public void Update ()
 	{
-	    if (Input.GetKeyDown(KeyCode.Return))
+	    if (!_started  && (Input.GetKeyDown(KeyCode.Return) || Input.touchCount > 0))
 	    {
 	        if (PlayerCharacter != null)
 	        {
+	            _started = true;
                 PlayerCharacter.StartMoving();
 	        }
 	    }

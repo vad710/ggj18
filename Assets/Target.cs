@@ -4,11 +4,17 @@ public class Target : MonoBehaviour
 {
     public GameObject PlatformPrefab;
 
+    public void BeginPlatformGeneration()
+    {
+        Debug.Log("Generating in 2 seconds...");
+        this.Invoke("GeneratePlatform", 2f);
+    }
+
     public void GeneratePlatform()
     {
         if (PlatformPrefab != null)
         {
-            
+            Debug.Log("Generating...");
 
             var newPlatform = Instantiate(PlatformPrefab, this.transform);
             
