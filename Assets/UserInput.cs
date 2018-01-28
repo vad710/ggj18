@@ -1,12 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class UserInput : MonoBehaviour
 {
 
     public Movement PlayerCharacter;
-	
+
+    public Target TestTarget;
+
 	// Update is called once per frame
 	public void Update ()
 	{
@@ -15,6 +15,13 @@ public class UserInput : MonoBehaviour
 	        if (PlayerCharacter != null)
 	        {
                 PlayerCharacter.StartMoving();
+	        }
+	    }
+        else if (Input.GetKeyDown(KeyCode.Space))
+	    {
+	        if (this.TestTarget != null)
+	        {
+                this.TestTarget.GeneratePlatform();
 	        }
 	    }
 	}

@@ -28,7 +28,7 @@ public class Movement : MonoBehaviour {
 	    {
 	        _nextInterval = Time.time + _interval;
 
-            this.transform.localPosition = new Vector3(0f, this.transform.localPosition.y, this.transform.localPosition.z - Speed);
+            this.transform.localPosition = new Vector3(0f, this.transform.localPosition.y, this.transform.localPosition.z + Speed);
             
 	    }
 	}

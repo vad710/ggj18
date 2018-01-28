@@ -119,6 +119,7 @@ public class EndZone : MonoBehaviour
                         {
                             Debug.Log("Destroying original platform...");
 
+                            //optimize this to use an object pool....?
                             Destroy(this.ParentPlatform.LastPlatform.gameObject);
                             this.ParentPlatform.LastPlatform = null;
                         }
@@ -129,7 +130,7 @@ public class EndZone : MonoBehaviour
                         var newHightOfCube = topOtherCube - (parentPlatformTransform.localScale.y / 2);
 
                         //aligning on Z
-                        var newZ = -1 * (otherPlatformTransform.localPosition.z - ((otherPlatformTransform.localScale.z + parentPlatformTransform.localScale.z)/2));
+                        var newZ =  (otherPlatformTransform.localPosition.z - ((otherPlatformTransform.localScale.z + parentPlatformTransform.localScale.z)/2));
 
                         parentPlatformTransform.localPosition = new Vector3(0f,
                             newHightOfCube, newZ);
