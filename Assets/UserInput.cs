@@ -21,6 +21,7 @@ public class UserInput : MonoBehaviour
 	    {
 	        if (this.TestTarget != null)
 	        {
+                Debug.Log("Generating test platform");
                 this.TestTarget.GeneratePlatform();
 	        }
 	    }

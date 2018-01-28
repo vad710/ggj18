@@ -1,25 +1,24 @@
 ﻿using UnityEngine;
 
-public class Target : MonoBehaviour 
+public class Target : MonoBehaviour
 {
+    public GameObject PlatformPrefab;
+
     public void GeneratePlatform()
     {
-
-        const float xScale = 0.4569838f;
-        const float zScale = 0.968372f;
-
-        var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        cube.AddComponent<Platform>();
-        var collider = cube.GetComponent<Collider>();
-        if (collider != null)
+        if (PlatformPrefab != null)
         {
-            Destroy(collider);
+            
+
+            var newPlatform = Instantiate(PlatformPrefab, this.transform);
+            
+            var platform = newPlatform.GetComponent<Platform>();
+            platform.ParentTarget = this;
+
+            var newHeight = Random.Range(0.2f, 0.75f);
+            newPlatform.transform.localScale = new Vector3(newPlatform.transform.localScale.x, newHeight, newPlatform.transform.localScale.z);
+            newPlatform.transform.localPosition = new Vector3(newPlatform.transform.localPosition.x,newHeight/2, newPlatform.transform.localPosition.z);
         }
-        
-        cube.transform.localScale = new Vector3();
-        cube.transform.parent = this.transform;
-
-
     }
 	
 }
