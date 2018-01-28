@@ -19,6 +19,10 @@ public class Movement : MonoBehaviour {
     {
         _isMoving = false;
         Debug.Log("explodey");
+
+        var animator = this.GetComponent<Animator>();
+
+        animator.Play("explode");
     }
 
 
