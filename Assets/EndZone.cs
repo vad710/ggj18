@@ -30,7 +30,15 @@ public class EndZone : MonoBehaviour
             }
             else if (!this.IsInput && this.ParentPlatform.NextPlatform != null)
             {
+                //This is where the player changes from one platform to the next...
                 movement.transform.parent = this.ParentPlatform.NextPlatform.transform;
+                
+                //Inactivate this platform
+                this.ParentPlatform.IsActive = false;
+
+                //Activate the other platform
+                this.ParentPlatform.NextPlatform.IsActive = true;
+                
             }
             else
             {
@@ -94,12 +102,6 @@ public class EndZone : MonoBehaviour
 
                         //Disable this endzone
                         this.Disabled = true;
-
-                        //Inactivate this platform
-                        this.ParentPlatform.IsActive = false;
-
-                        //Activate the other platform
-                        otherEndZone.ParentPlatform.IsActive = true;
                         
                         //attach this platform to the parent platform
                         var parentPlatformTransform = this.ParentPlatform.transform;
