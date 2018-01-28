@@ -18,6 +18,7 @@ public class Movement : MonoBehaviour {
     public void StopMoving()
     {
         _isMoving = false;
+        Debug.Log("explodey");
     }
 
 

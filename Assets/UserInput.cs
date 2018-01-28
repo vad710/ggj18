@@ -28,5 +28,9 @@ public class UserInput : MonoBehaviour
                 this.TestTarget.GeneratePlatform();
 	        }
 	    }
+        else if (Input.GetKeyDown(KeyCode.E))
+	    {
+            PlayerCharacter.StopMoving();
+	    }
 	}
 }
