@@ -8,20 +8,37 @@ public class EndZone : MonoBehaviour
     private const float SnapDistance = 0.01f; // 1 centimeter
     private const string EndZoneTag = "EndZoneTag";
 
+    public bool IsInput;
 
     private readonly float _interval = 0.250f;
     private float _nextInterval = 0f;
 
-
+    /// <summary>
+    /// The Player Character enters the end zone
+    /// </summary>
+    /// <param name="other"></param>
     public void OnTriggerEnter(Collider other)
     {
         var movement = other.GetComponent<Movement>();
 
         if (movement != null)
         {
-            movement.StopMoving();
+            if (this.IsInput)
+            {
+                Debug.Log("Input Reached");
+                //Let the player character continue
+            }
+            else if (!this.IsInput && this.ParentPlatform.NextPlatform != null)
+            {
+                movement.transform.parent = this.ParentPlatform.NextPlatform.transform;
+            }
+            else
+            {
+                Debug.Log("IsInput: " + this.IsInput + " NextPlatform: " + this.ParentPlatform.NextPlatform);
+                movement.StopMoving();    
+                //die??
+            }
         }
-
     }
 
 
@@ -41,7 +58,7 @@ public class EndZone : MonoBehaviour
     /// </summary>
     public bool Disabled { get; private set; }
 
-    public Platform ParentPlatform { get; private set; }
+    public Platform ParentPlatform;// { get; private set; }
 
     public void Start()
     {
@@ -89,16 +106,19 @@ public class EndZone : MonoBehaviour
                         var otherPlatformTransform = otherEndZone.ParentPlatform.transform;
                         
                         parentPlatformTransform.parent = otherEndZone.ParentPlatform.transform.parent;
-                        otherEndZone.ParentPlatform.PlatformAttachedToMe = this.ParentPlatform;
+                        otherEndZone.ParentPlatform.LastPlatform = this.ParentPlatform;
+                        this.ParentPlatform.NextPlatform = otherEndZone.ParentPlatform;
+                        
+                        Debug.Log("Next Platform set...");
                         parentPlatformTransform.localRotation = Quaternion.identity;
 
                         //Destroy the previous attached platform
-                        if (this.ParentPlatform.PlatformAttachedToMe != null)
+                        if (this.ParentPlatform.LastPlatform != null)
                         {
                             Debug.Log("Destroying original platform...");
 
-                            Destroy(this.ParentPlatform.PlatformAttachedToMe.gameObject);
-                            this.ParentPlatform.PlatformAttachedToMe = null;
+                            Destroy(this.ParentPlatform.LastPlatform.gameObject);
+                            this.ParentPlatform.LastPlatform = null;
                         }
 
                         

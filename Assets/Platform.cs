@@ -4,5 +4,6 @@ public class Platform : MonoBehaviour
 {
     public bool IsActive;
 
-    public Platform PlatformAttachedToMe;
+    public Platform LastPlatform;
+    public Platform NextPlatform;
 }
